@@ -23,6 +23,7 @@ namespace Exchange_Stocks_Tracker
         HtmlWeb htmlStock = new HtmlWeb();
         private List<StockClass> allStocks = new List<StockClass>();
         private Form activeForm;
+        double totalStocksProfit;
         public Main()
         {
             InitializeComponent();
@@ -49,11 +50,7 @@ namespace Exchange_Stocks_Tracker
                     double stockPriceDouble = Convert.ToDouble(stockPriceNode);
                     double purchasePrice = Convert.ToDouble(txtBoxPurchasePrice.Text.Replace(".", ","));
 
-                    label5.Text = stockName + ": " + stockPriceNode + " TL";
-
-                    // ******* TO DO **********
-                    //Hisse kar zarar fonksiyonu yap
-                    
+                    label5.Text = stockName + ": " + stockPriceNode + " TL";                                                         
 
                     // Check if stock is already in the list
                     StockClass existingStock = allStocks.FirstOrDefault(s => s.stockName == stockName);
@@ -62,7 +59,8 @@ namespace Exchange_Stocks_Tracker
                     {
                         //Update existing stock price
                         existingStock.stockPrice = stockPriceDouble;
-                        MessageBox.Show($"'{stockName}' updated now.");
+                        MessageBox.Show($"'{stockName}' is exist in the list. You don't need to add again");
+                        MessageBox.Show($"'{stockName}' price updated now.");
                     }
                     else
                     {
@@ -92,33 +90,37 @@ namespace Exchange_Stocks_Tracker
             }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-            string stockName = txtBoxStockName.Text;
-            DeleteHisseFromList(stockName);
+        public void stockProfit() {
+            totalStocksProfit = 0;
+            foreach (StockClass share in allStocks)
+            {
+                double singleStockProfit = (share.stockPrice - share.stockPurchasePrice) * share.stockValue;
+                share.stockProfit = singleStockProfit;
+                totalStocksProfit += share.stockProfit;
+            }
+            lblTotalProfit.Text = $"Current total profit and loss situation: {totalStocksProfit.ToString("N2")}";
         }
 
-        ///  TO DO
-        //Hisse kar zarar fonksiyonunu buraya yaz
-        /* 
-        public void stocksProfitAndLoss() {
-            stocksProfitAndLoss    
-            for each döngüsü ile tüm hisse değerlerini topla
-            sonra alış fiyatlarını topla
-            en son buraya yapıştır.
+        /*
+         public void totalStockProfit() {
+            stockProfit();
+            
         }
         */
-        public void stocksProfitAndLoss()
+
+        public void totalStocksValue()
         {
-            double totalSharePrice = 0;
-
+            double totalSharePrice = 0;            
             foreach (StockClass stock in allStocks)
-            {
+            {                
                 totalSharePrice += stock.stockPrice * stock.stockValue;
+                stock.stockProfit = stock.stockValue * stock.stockPrice;
+                SaveShareListToFile2();
             }
+            stockProfit();
 
-            string totalSharePriceStr = totalSharePrice.ToString();
-            lblStocksProfitAndLoss.Text = $"{totalSharePriceStr} TL";
+            string totalSharePriceStr = totalSharePrice.ToString("N2");
+            lblTotalStocksValue.Text = $"{totalSharePriceStr} TL";
         }
 
 
@@ -146,7 +148,7 @@ namespace Exchange_Stocks_Tracker
             {
                 string jsonString = JsonConvert.SerializeObject(allStocks, Formatting.Indented);
                 System.IO.File.WriteAllText("StocksJson.json", jsonString);
-                stocksProfitAndLoss();
+                totalStocksValue();
             }
             catch (Exception ex)
             {
@@ -154,8 +156,22 @@ namespace Exchange_Stocks_Tracker
             }
         }
 
+        private void SaveShareListToFile2()
+        {
+            try
+            {
+                string jsonString = JsonConvert.SerializeObject(allStocks, Formatting.Indented);
+                System.IO.File.WriteAllText("StocksJson.json", jsonString);                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"There was an error in not being able to write to the share list file: {ex.Message}");
+            }
+        }
+
+
         // Delete from Json file
-        private void DeleteHisseFromList(string stockName)
+        private void DeleteStockFromList(string stockName)
         {
             int index = allStocks.FindIndex(s => s.stockName == stockName);
 
@@ -169,6 +185,10 @@ namespace Exchange_Stocks_Tracker
             {
                 MessageBox.Show($"'{stockName}' share didn't find in the list.");
             }
+        }
+        private void btnDelete_Click(object sender, EventArgs e)
+        {            
+            DeleteStockFromList(txtBoxStockName.Text.ToUpper());
         }
 
         // Show DataGird
@@ -185,12 +205,13 @@ namespace Exchange_Stocks_Tracker
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            stocksProfitAndLoss();
+            totalStocksValue();
         }
 
         private void sharesProfitAndLossToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            stocksProfitAndLoss();
+            totalStocksValue();
+            stockProfit();
         }
 
         /* 
@@ -209,9 +230,14 @@ namespace Exchange_Stocks_Tracker
         public void updateAllSharesFiyat()
         {
             foreach (StockClass share in allStocks)
-            {                                
+            {
                 takeTheValueOfShare(share); // Update the price of each share
             }
+            // For example, you might want to update a DataGridView here
+            totalStocksValue();
+            // This code will open the ChartForm.
+            ChartForm chartForm = new ChartForm();
+            chartForm.Show();
         }
 
         // This method retrieves the price of a specific share.
@@ -243,16 +269,50 @@ namespace Exchange_Stocks_Tracker
                 {
                     MessageBox.Show("No elements matching the specified XPath expression were found.");
                 }
-                // For example, you might want to update a DataGridView here
-                stocksProfitAndLoss();
-                // This code will open the ChartForm.
-                ChartForm chartForm = new ChartForm();
-                chartForm.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error has occurred while updating '{share.stockName}' stock price: {ex.Message}");
             }
+        }
+
+        bool sell;
+        private void btnBuy_Click(object sender, EventArgs e)
+        {
+            sell = false;            
+            stockBuy(txtBoxStockName.Text.ToUpper());
+        }
+        
+        private void stockBuy(string stockName)
+        {
+            StockClass existingStock = allStocks.FirstOrDefault(s => s.stockName == stockName);
+            MessageBox.Show($"{stockName}");
+            try
+            {
+                if (existingStock != null)
+                {
+                    // Update existing stock price
+                    if(sell == false) existingStock.stockValue += Convert.ToInt32(txtBoxSubstractAdd.Text);
+                    else if(sell == true) existingStock.stockValue -= Convert.ToInt32(txtBoxSubstractAdd.Text);
+                    MessageBox.Show($"'{stockName}' updated now.");
+                    SaveShareListToFile();
+                }
+                else
+                {
+                    MessageBox.Show("Error");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+
+        }
+
+        private void btnSell_Click(object sender, EventArgs e)
+        {
+            sell = true;
+            stockBuy(txtBoxStockName.Text.ToUpper());
         }
     }
 }

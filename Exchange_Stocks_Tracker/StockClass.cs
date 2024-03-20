@@ -12,6 +12,7 @@ namespace Exchange_Stocks_Tracker
         public double stockPrice { get; set; } // Hissenin güncel değeri.
         public double stockPurchasePrice { get; set; }
         public int stockValue { get; set; } //Number of shares you own. 
+        public double stockProfit { get; set; } // Profit for single stock
     }
 }
 
