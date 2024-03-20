@@ -1,38 +1,63 @@
+---
+
 # Exchange Stocks Tracker
 
-Exchange Stocks Tracker, borsada takip ettiğiniz hisselerin fiyatlarını güncellemek ve kar/zarar durumunu izlemek için kullanılan bir uygulamadır.
+## Description / Açıklama
 
-## Kullanım
+This application allows users to track stock prices and manage their stock portfolio. Users can add new stocks, update prices, buy or sell stocks, and visualize their portfolio's performance through charts.
 
-1. **Hisse Ekleme**
-   - Yeni bir hisse eklemek için "Add New Stock" butonuna tıklayın.
-   - Açılan pencerede hissenin adını, alım fiyatını ve sahip olduğunuz adetini girin.
-   - "Add Stock" butonuna tıklayarak hisseyi ekleyin.
+Bu uygulama, kullanıcıların hisse senedi fiyatlarını takip etmelerine ve hisse senedi portföylerini yönetmelerine olanak tanır. Kullanıcılar yeni hisse senetleri ekleyebilir, fiyatları güncelleyebilir, hisse senetleri alıp satabilir ve portföy performansını grafikler aracılığıyla görselleştirebilir.
 
-2. **Hisse Güncelleme**
-   - Var olan bir hissenin fiyatını güncellemek için "Update" butonuna tıklayın.
-   - Açılan pencerede güncellemek istediğiniz hissenin adını girin.
-   - "Update Stock" butonuna tıklayarak hissenin fiyatını güncelleyin.
+## Features / Özellikler
 
-3. **Hisse Silme**
-   - Var olan bir hisseyi listeden silmek için "Delete" butonuna tıklayın.
-   - Açılan pencerede silmek istediğiniz hissenin adını girin.
-   - "Delete Stock" butonuna tıklayarak hisseyi listeden silin.
+- Add new stocks / Yeni hisse senetleri ekleme
+- Update stock prices / Hisse senedi fiyatlarını güncelleme
+- Buy and sell stocks / Hisse senetleri alıp satma
+- Visualize portfolio performance with charts / Portföy performansını grafiklerle görselleştirme
+- Save and load portfolio data / Portföy verilerini kaydetme ve yükleme
 
-4. **Kar/Zarar Hesaplama**
-   - "Profit/Loss" menüsünden "Calculate" seçeneğine tıklayarak mevcut hisselerin kar/zarar durumunu hesaplayın.
+## Installation / Kurulum
 
-5. **Hisse Fiyatlarını Güncelleme**
-   - "Refresh Stocks" butonuna tıklayarak tüm hisselerin fiyatlarını güncelleyin.
-   - Tüm hisselerin fiyatlarını güncellemek için "Refresh All Shares" fonksiyonunu kullanın.
+1. Clone the repository:
+   
+   ```
+   git clone https://github.com/insifa0/exchange-stocks-tracker.git
+   ```
 
-6. **Grafik Görüntüleme**
-   - "View Chart" butonuna tıklayarak hisse fiyatlarının grafiklerini görüntüleyin.
+2. Navigate to the project directory:
+   
+   ```
+   cd exchange-stocks-tracker
+   ```
 
-## Önemli Notlar
+3. Open the solution file (`Exchange Stocks Tracker.sln`) in Visual Studio.
 
-- Hisselerin fiyatları, Yahoo Finance'den alınır.
-- Hisselerin fiyatları güncellendikten sonra kar/zarar durumu ve grafikler otomatik olarak güncellenir.
-- Uygulama, hisselerinizi "StocksJson.json" dosyasında saklar. Bu dosya, uygulamayı yeniden başlattığınızda hisselerinizin kaybolmamasını sağlar.
+4. Build and run the project.
+
+## Usage / Kullanım
+
+1. Launch the application.
+
+2. Click on the "Add New Stock" button to add a new stock to your portfolio.
+
+3. Enter the stock name, purchase price, and number of shares.
+
+4. Click on the "Buy" button to buy stocks or the "Sell" button to sell stocks.
+
+5. Use the "Update Prices" button to fetch the latest stock prices from the web.
+
+6. View your portfolio's performance on the chart.
 
 ---
+
+## Contributing / Katkıda Bulunma
+
+Contributions are welcome! Please feel free to submit a pull request.
+
+Katkılarınızı bekliyoruz! Lütfen bir "pull request" göndermekten çekinmeyin.
+
+## License / Lisans
+
+This project is licensed under the [MIT License](LICENSE).
+
+Bu proje [MIT License](LICENSE) altında lisanslanmıştır.
