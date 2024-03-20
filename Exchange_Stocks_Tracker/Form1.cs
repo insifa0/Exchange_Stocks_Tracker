@@ -28,11 +28,10 @@ namespace Exchange_Stocks_Tracker
         {
             InitializeComponent();
             LoadShareListFromFile();
-
         }
 
         //finance.yahoo // I pull share prices from the following site and this is the path in HTML
-        private static string stockPriceXpath = "//div[@class='D(ib) Mend(20px)']//fin-streamer[@data-field='regularMarketPrice']";
+        private const string stockPriceXpath = "//div[@class='D(ib) Mend(20px)']//fin-streamer[@data-field='regularMarketPrice']";
         string stockName;
         private void btnAddNewStock_Click(object sender, EventArgs e)
         {
@@ -50,7 +49,7 @@ namespace Exchange_Stocks_Tracker
                     double stockPriceDouble = Convert.ToDouble(stockPriceNode);
                     double purchasePrice = Convert.ToDouble(txtBoxPurchasePrice.Text.Replace(".", ","));
 
-                    label5.Text = stockName + ": " + stockPriceNode + " TL";                                                         
+                    lblCurrentStock.Text = stockName + ": " + stockPriceNode + " TL";                                                         
 
                     // Check if stock is already in the list
                     StockClass existingStock = allStocks.FirstOrDefault(s => s.stockName == stockName);
@@ -66,10 +65,10 @@ namespace Exchange_Stocks_Tracker
                     {
                         // Add new stock to the list
                         int stockValue = Convert.ToInt32(txtBoxNumberOfStocks.Text);
-                        allStocks.Add(new StockClass { stockName = stockName, stockPrice = stockPriceDouble, stockPurchasePrice = purchasePrice, stockValue = stockValue });
-                    }                    
+                        allStocks.Add(new StockClass { stockName = stockName, stockPrice = stockPriceDouble, stockPurchasePrice = purchasePrice, stockValue = stockValue, stockProfit = stockValue * purchasePrice });
+                    }
                     // Save updated list to "StocksJson.json"
-                    SaveShareListToFile();
+                    SaveStocksListToFile();
 
                 }
                 else
@@ -101,28 +100,16 @@ namespace Exchange_Stocks_Tracker
             lblTotalProfit.Text = $"Current total profit and loss situation: {totalStocksProfit.ToString("N2")}";
         }
 
-        /*
-         public void totalStockProfit() {
-            stockProfit();
-            
-        }
-        */
-
         public void totalStocksValue()
         {
-            double totalSharePrice = 0;            
-            foreach (StockClass stock in allStocks)
-            {                
-                totalSharePrice += stock.stockPrice * stock.stockValue;
-                stock.stockProfit = stock.stockValue * stock.stockPrice;
-                SaveShareListToFile2();
-            }
-            stockProfit();
+            double totalSharePrice = allStocks.Sum(stock => stock.stockPrice * stock.stockValue);
+            totalStocksProfit = allStocks.Sum(stock => stock.stockProfit);
 
-            string totalSharePriceStr = totalSharePrice.ToString("N2");
-            lblTotalStocksValue.Text = $"{totalSharePriceStr} TL";
+            lblTotalStocksValue.Text = $"{totalSharePrice:N2} TL";
+            lblTotalProfit.Text = $"Current total profit and loss situation: {totalStocksProfit:N2}";
+
+            SaveStocksListToFile();
         }
-
 
         //Loads the table from a JSON file.
         private void LoadShareListFromFile()
@@ -142,13 +129,13 @@ namespace Exchange_Stocks_Tracker
         }
 
         // Saving to a JSON file
-        private void SaveShareListToFile()
+        private void SaveStocksListToFile()
         {
             try
             {
                 string jsonString = JsonConvert.SerializeObject(allStocks, Formatting.Indented);
                 System.IO.File.WriteAllText("StocksJson.json", jsonString);
-                totalStocksValue();
+                UpdateStockInfo(); // Burada yeni metod çağrılıyor
             }
             catch (Exception ex)
             {
@@ -169,7 +156,6 @@ namespace Exchange_Stocks_Tracker
             }
         }
 
-
         // Delete from Json file
         private void DeleteStockFromList(string stockName)
         {
@@ -179,52 +165,14 @@ namespace Exchange_Stocks_Tracker
             {
                 allStocks.RemoveAt(index);
                 MessageBox.Show($"'{stockName}' share was successfully deleted.");
-                SaveShareListToFile();
+                SaveStocksListToFile();
             }
             else
             {
                 MessageBox.Show($"'{stockName}' share didn't find in the list.");
             }
         }
-        private void btnDelete_Click(object sender, EventArgs e)
-        {            
-            DeleteStockFromList(txtBoxStockName.Text.ToUpper());
-        }
 
-        // Show DataGird
-        private void btnChart_Click(object sender, EventArgs e)
-        {
-            ChartForm chartForm = new ChartForm();
-            chartForm.Show();
-        }
-
-        private void btnRefleshStocks_Click(object sender, EventArgs e)
-        {
-            updateAllSharesFiyat();           
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            totalStocksValue();
-        }
-
-        private void sharesProfitAndLossToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            totalStocksValue();
-            stockProfit();
-        }
-
-        /* 
-        public void refleshAllShares() {
-            refleshAllShares    
-            for each döngüsü ile tüm hisse isimlerini al
-            sonra hisselerin sadece fiyatlarını güncelle
-            sonra dataGrid aç
-
-        }
-        */
-        // ********** TO DO *********
-        // update fonksiyonun adını güncelle
         // ve value of the share, amount of the share isimlerini kullan
         // This method updates the prices of all shares in the list.
         public void updateAllSharesFiyat()
@@ -259,11 +207,10 @@ namespace Exchange_Stocks_Tracker
 
                     // Update the share price
                     share.stockPrice = stockPriceDouble;
-
                     MessageBox.Show($"'{share.stockName}' updated now.");
 
                     // Save the updated list
-                    SaveShareListToFile();                    
+                    SaveStocksListToFile();                    
                 }
                 else
                 {
@@ -277,12 +224,6 @@ namespace Exchange_Stocks_Tracker
         }
 
         bool sell;
-        private void btnBuy_Click(object sender, EventArgs e)
-        {
-            sell = false;            
-            stockBuy(txtBoxStockName.Text.ToUpper());
-        }
-        
         private void stockBuy(string stockName)
         {
             StockClass existingStock = allStocks.FirstOrDefault(s => s.stockName == stockName);
@@ -292,10 +233,10 @@ namespace Exchange_Stocks_Tracker
                 if (existingStock != null)
                 {
                     // Update existing stock price
-                    if(sell == false) existingStock.stockValue += Convert.ToInt32(txtBoxSubstractAdd.Text);
-                    else if(sell == true) existingStock.stockValue -= Convert.ToInt32(txtBoxSubstractAdd.Text);
+                    if (sell == false) existingStock.stockValue += Convert.ToInt32(txtBoxSubstractAdd.Text);
+                    else if (sell == true) existingStock.stockValue -= Convert.ToInt32(txtBoxSubstractAdd.Text);
                     MessageBox.Show($"'{stockName}' updated now.");
-                    SaveShareListToFile();
+                    SaveStocksListToFile();
                 }
                 else
                 {
@@ -308,11 +249,47 @@ namespace Exchange_Stocks_Tracker
             }
 
         }
+        public void UpdateStockInfo()
+        {
+            stockProfit();
+            totalStocksValue();
+        }
 
+        private void btnBuy_Click(object sender, EventArgs e)
+        {
+            sell = false;
+            stockBuy(txtBoxStockName.Text.ToUpper());
+        }
         private void btnSell_Click(object sender, EventArgs e)
         {
             sell = true;
             stockBuy(txtBoxStockName.Text.ToUpper());
+        }
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteStockFromList(txtBoxStockName.Text.ToUpper());
+        }
+
+        // Show DataGird
+        private void btnChart_Click(object sender, EventArgs e)
+        {
+            ChartForm chartForm = new ChartForm();
+            chartForm.Show();
+        }
+
+        private void btnRefleshStocks_Click(object sender, EventArgs e)
+        {
+            updateAllSharesFiyat();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            totalStocksValue();
+        }
+
+        private void sharesProfitAndLossToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateStockInfo();
         }
     }
 }

@@ -31,11 +31,16 @@
             this.components = new System.ComponentModel.Container();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblCurrentStock = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.btnSell = new System.Windows.Forms.Button();
+            this.btnBuy = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.btnAddNewStock = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.txtBoxSubstractAdd = new System.Windows.Forms.TextBox();
@@ -57,25 +62,20 @@
             this.lblTotalStocksValue = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.groupBoxButtons = new System.Windows.Forms.GroupBox();
-            this.btnAddNewStock = new System.Windows.Forms.Button();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnBuy = new System.Windows.Forms.Button();
-            this.btnSell = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel7.SuspendLayout();
             this.panel4.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.groupBoxButtons.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.LightBlue;
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.lblCurrentStock);
             this.groupBox1.Controls.Add(this.panel1);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtBoxSubstractAdd);
@@ -93,14 +93,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Home Page";
             // 
-            // label5
+            // lblCurrentStock
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(493, 171);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(44, 16);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "label5";
+            this.lblCurrentStock.AutoSize = true;
+            this.lblCurrentStock.Location = new System.Drawing.Point(493, 171);
+            this.lblCurrentStock.Name = "lblCurrentStock";
+            this.lblCurrentStock.Size = new System.Drawing.Size(86, 16);
+            this.lblCurrentStock.TabIndex = 14;
+            this.lblCurrentStock.Text = "Current Stock";
             // 
             // panel1
             // 
@@ -123,6 +123,43 @@
             this.panel3.Size = new System.Drawing.Size(637, 39);
             this.panel3.TabIndex = 15;
             // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.ForestGreen;
+            this.panel5.Controls.Add(this.btnSell);
+            this.panel5.Controls.Add(this.btnBuy);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(130, 0);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(295, 39);
+            this.panel5.TabIndex = 22;
+            // 
+            // btnSell
+            // 
+            this.btnSell.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnSell.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnSell.Location = new System.Drawing.Point(147, 0);
+            this.btnSell.Name = "btnSell";
+            this.btnSell.Size = new System.Drawing.Size(147, 39);
+            this.btnSell.TabIndex = 21;
+            this.btnSell.Text = "Sell";
+            this.btnSell.UseVisualStyleBackColor = true;
+            this.btnSell.Click += new System.EventHandler(this.btnSell_Click);
+            // 
+            // btnBuy
+            // 
+            this.btnBuy.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnBuy.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnBuy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnBuy.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnBuy.Location = new System.Drawing.Point(0, 0);
+            this.btnBuy.Name = "btnBuy";
+            this.btnBuy.Size = new System.Drawing.Size(147, 39);
+            this.btnBuy.TabIndex = 20;
+            this.btnBuy.Text = "Buy";
+            this.btnBuy.UseVisualStyleBackColor = false;
+            this.btnBuy.Click += new System.EventHandler(this.btnBuy_Click);
+            // 
             // panel7
             // 
             this.panel7.Controls.Add(this.btnAddNewStock);
@@ -132,6 +169,19 @@
             this.panel7.Size = new System.Drawing.Size(212, 39);
             this.panel7.TabIndex = 20;
             // 
+            // btnAddNewStock
+            // 
+            this.btnAddNewStock.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnAddNewStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnAddNewStock.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnAddNewStock.Location = new System.Drawing.Point(0, 0);
+            this.btnAddNewStock.Name = "btnAddNewStock";
+            this.btnAddNewStock.Size = new System.Drawing.Size(212, 39);
+            this.btnAddNewStock.TabIndex = 19;
+            this.btnAddNewStock.Text = "New Stock";
+            this.btnAddNewStock.UseVisualStyleBackColor = true;
+            this.btnAddNewStock.Click += new System.EventHandler(this.btnAddNewStock_Click);
+            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.btnDelete);
@@ -140,6 +190,20 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(130, 39);
             this.panel4.TabIndex = 21;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.LavenderBlush;
+            this.btnDelete.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnDelete.Location = new System.Drawing.Point(0, 0);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(130, 39);
+            this.btnDelete.TabIndex = 19;
+            this.btnDelete.Text = "Detele";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // panel2
             // 
@@ -224,7 +288,7 @@
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.menuStrip1.BackColor = System.Drawing.Color.WhiteSmoke;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sharesProfitAndLossToolStripMenuItem,
@@ -270,7 +334,8 @@
             // 
             // btnRefleshStocks
             // 
-            this.btnRefleshStocks.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnRefleshStocks.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnRefleshStocks.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnRefleshStocks.Location = new System.Drawing.Point(315, 22);
             this.btnRefleshStocks.Name = "btnRefleshStocks";
             this.btnRefleshStocks.Size = new System.Drawing.Size(175, 58);
@@ -281,7 +346,7 @@
             // 
             // btnChart
             // 
-            this.btnChart.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnChart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnChart.Location = new System.Drawing.Point(496, 21);
             this.btnChart.Name = "btnChart";
             this.btnChart.Size = new System.Drawing.Size(135, 58);
@@ -334,61 +399,6 @@
             this.groupBoxButtons.TabStop = false;
             this.groupBoxButtons.Text = "Buttons";
             // 
-            // btnAddNewStock
-            // 
-            this.btnAddNewStock.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnAddNewStock.Location = new System.Drawing.Point(0, 0);
-            this.btnAddNewStock.Name = "btnAddNewStock";
-            this.btnAddNewStock.Size = new System.Drawing.Size(212, 39);
-            this.btnAddNewStock.TabIndex = 19;
-            this.btnAddNewStock.Text = "New Stock";
-            this.btnAddNewStock.UseVisualStyleBackColor = true;
-            this.btnAddNewStock.Click += new System.EventHandler(this.btnAddNewStock_Click);
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.ForestGreen;
-            this.panel5.Controls.Add(this.btnSell);
-            this.panel5.Controls.Add(this.btnBuy);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(130, 0);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(295, 39);
-            this.panel5.TabIndex = 22;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnDelete.Location = new System.Drawing.Point(0, 0);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(130, 39);
-            this.btnDelete.TabIndex = 19;
-            this.btnDelete.Text = "Detele";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnBuy
-            // 
-            this.btnBuy.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnBuy.Location = new System.Drawing.Point(0, 0);
-            this.btnBuy.Name = "btnBuy";
-            this.btnBuy.Size = new System.Drawing.Size(147, 39);
-            this.btnBuy.TabIndex = 20;
-            this.btnBuy.Text = "Buy";
-            this.btnBuy.UseVisualStyleBackColor = true;
-            this.btnBuy.Click += new System.EventHandler(this.btnBuy_Click);
-            // 
-            // btnSell
-            // 
-            this.btnSell.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnSell.Location = new System.Drawing.Point(147, 0);
-            this.btnSell.Name = "btnSell";
-            this.btnSell.Size = new System.Drawing.Size(147, 39);
-            this.btnSell.TabIndex = 21;
-            this.btnSell.Text = "Sell";
-            this.btnSell.UseVisualStyleBackColor = true;
-            this.btnSell.Click += new System.EventHandler(this.btnSell_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -404,13 +414,13 @@
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBoxButtons.ResumeLayout(false);
             this.groupBoxButtons.PerformLayout();
-            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -436,7 +446,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblCurrentStock;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem sharesProfitAndLossToolStripMenuItem;
         private System.Windows.Forms.Panel panel5;
