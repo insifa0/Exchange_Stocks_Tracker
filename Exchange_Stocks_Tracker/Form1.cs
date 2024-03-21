@@ -23,7 +23,7 @@ namespace Exchange_Stocks_Tracker
         HtmlWeb htmlStock = new HtmlWeb();
         private List<StockClass> allStocks = new List<StockClass>();
         private Form activeForm;
-        double totalStocksProfit;
+        double totalStocksProfit;        
         public Main()
         {
             InitializeComponent();
@@ -89,25 +89,16 @@ namespace Exchange_Stocks_Tracker
             }
         }
 
-        public void stockProfit() {
-            totalStocksProfit = 0;
-            foreach (StockClass share in allStocks)
-            {
-                double singleStockProfit = (share.stockPrice - share.stockPurchasePrice) * share.stockValue;
-                share.stockProfit = singleStockProfit;
-                totalStocksProfit += share.stockProfit;
-            }
-            lblTotalProfit.Text = $"Current total profit and loss situation: {totalStocksProfit.ToString("N2")}";
+
+        public void allStocksConsPors() {
+            double totalStocksProfit = allStocks.Sum(stock => (stock.stockPrice - stock.stockPurchasePrice) * stock.stockValue);
+            lblTotalProfit.Text = $"Current total profit and loss situation: {totalStocksProfit:N2}";
         }
 
-        public void totalStocksValue()
+        public void totalStocksValue() // toplam hiisse hesabındaki para
         {
             double totalSharePrice = allStocks.Sum(stock => stock.stockPrice * stock.stockValue);
-            totalStocksProfit = allStocks.Sum(stock => stock.stockProfit);
-
             lblTotalStocksValue.Text = $"{totalSharePrice:N2} TL";
-            lblTotalProfit.Text = $"Current total profit and loss situation: {totalStocksProfit:N2}";
-
             SaveStocksListToFile();
         }
 
@@ -135,7 +126,7 @@ namespace Exchange_Stocks_Tracker
             {
                 string jsonString = JsonConvert.SerializeObject(allStocks, Formatting.Indented);
                 System.IO.File.WriteAllText("StocksJson.json", jsonString);
-                UpdateStockInfo(); // Burada yeni metod çağrılıyor
+                //UpdateStockInfo(); // Burada yeni metod çağrılıyor
             }
             catch (Exception ex)
             {
@@ -226,15 +217,27 @@ namespace Exchange_Stocks_Tracker
         bool sell;
         private void stockBuy(string stockName)
         {
-            StockClass existingStock = allStocks.FirstOrDefault(s => s.stockName == stockName);
-            MessageBox.Show($"{stockName}");
+            StockClass existingStock = allStocks.FirstOrDefault(s => s.stockName == stockName);            
             try
             {
                 if (existingStock != null)
                 {
                     // Update existing stock price
-                    if (sell == false) existingStock.stockValue += Convert.ToInt32(txtBoxSubstractAdd.Text);
-                    else if (sell == true) existingStock.stockValue -= Convert.ToInt32(txtBoxSubstractAdd.Text);
+                    if (sell == false)
+                    {
+                        double oldStockDeger = existingStock.stockValue * existingStock.stockPurchasePrice;
+                        int addNumberOfStock = Convert.ToInt32(txtBoxSubstractAdd.Text);
+                        existingStock.stockValue += addNumberOfStock;
+                        int purchasePrice = Convert.ToInt32(txtBoxPurchasePrice.Text);
+                        double addedStockDeger = (purchasePrice * addNumberOfStock) + oldStockDeger;
+                        existingStock.stockProfit = existingStock.stockValue * existingStock.stockPrice;
+                        existingStock.stockPurchasePrice = (addedStockDeger / existingStock.stockValue);
+                    }
+                    else if (sell == true)
+                    {
+                        existingStock.stockValue -= Convert.ToInt32(txtBoxSubstractAdd.Text);
+                        existingStock.stockProfit = existingStock.stockValue * existingStock.stockPrice;                        
+                    }
                     MessageBox.Show($"'{stockName}' updated now.");
                     SaveStocksListToFile();
                 }
@@ -251,7 +254,7 @@ namespace Exchange_Stocks_Tracker
         }
         public void UpdateStockInfo()
         {
-            stockProfit();
+            allStocksConsPors();
             totalStocksValue();
         }
 

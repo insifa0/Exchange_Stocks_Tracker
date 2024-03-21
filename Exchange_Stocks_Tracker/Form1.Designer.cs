@@ -334,11 +334,11 @@
             // 
             // btnRefleshStocks
             // 
-            this.btnRefleshStocks.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.btnRefleshStocks.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.btnRefleshStocks.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnRefleshStocks.Location = new System.Drawing.Point(315, 22);
+            this.btnRefleshStocks.Location = new System.Drawing.Point(333, 21);
             this.btnRefleshStocks.Name = "btnRefleshStocks";
-            this.btnRefleshStocks.Size = new System.Drawing.Size(175, 58);
+            this.btnRefleshStocks.Size = new System.Drawing.Size(174, 58);
             this.btnRefleshStocks.TabIndex = 0;
             this.btnRefleshStocks.Text = "Reflesh the Stocks";
             this.btnRefleshStocks.UseVisualStyleBackColor = true;
@@ -347,9 +347,9 @@
             // btnChart
             // 
             this.btnChart.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.btnChart.Location = new System.Drawing.Point(496, 21);
+            this.btnChart.Location = new System.Drawing.Point(513, 21);
             this.btnChart.Name = "btnChart";
-            this.btnChart.Size = new System.Drawing.Size(135, 58);
+            this.btnChart.Size = new System.Drawing.Size(118, 58);
             this.btnChart.TabIndex = 1;
             this.btnChart.Text = "Charts";
             this.btnChart.UseVisualStyleBackColor = true;
